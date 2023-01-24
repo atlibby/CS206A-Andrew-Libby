@@ -1,6 +1,6 @@
 import pyrosim.pyrosim as pyrosim
 
-pyrosim.Start_SDF("boxes.sdf")
+pyrosim.Start_SDF("world.sdf")
 
 width = 1
 
