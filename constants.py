@@ -1,7 +1,7 @@
 import numpy
 t = 1/60
 backLegAmplitude = numpy.pi/6.0
-backLegFrequency = 4
+backLegFrequency = 2
 backLegPhaseOffset = 0
 frontLegAmplitude = numpy.pi/4.0
 frontLegFrequency = 4
