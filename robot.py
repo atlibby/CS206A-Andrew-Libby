@@ -36,6 +36,7 @@ class ROBOT:
                 print("Neuron name: " + neuronName)
                 print("Joint name: " + jointName)
                 print("Joint angle: " + str(desiredAngle))
+
     def Think(self):
         self.nn.Update()
         self.nn.Print()

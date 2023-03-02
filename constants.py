@@ -1,5 +1,5 @@
 import numpy
-t = 1/60
+t = 1/1000
 STEPS = 10000
 AMPLITUDE = numpy.pi/6.0
 FREQUENCY = 2
