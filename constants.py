@@ -1,6 +1,6 @@
 import numpy
 t = 1/1000
-STEPS = 10000
+STEPS = 1000
 AMPLITUDE = numpy.pi/6.0
 FREQUENCY = 2
 PHASE_OFFSET = 0
