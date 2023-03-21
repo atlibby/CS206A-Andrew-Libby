@@ -1,6 +1,8 @@
 import numpy
 t = 1/1000
+populationSize = 10
 STEPS = 1000
+N_GENS = 10
 AMPLITUDE = numpy.pi/6.0
 FREQUENCY = 2
 PHASE_OFFSET = 0

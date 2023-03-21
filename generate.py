@@ -1,6 +1,6 @@
 import pyrosim.pyrosim as pyrosim
 import random as random
-def Create_World():
+def Generate_World():
 	pyrosim.Start_SDF("world.sdf")
 
 	width = 1
@@ -88,6 +88,6 @@ def Generate_Brain():
 	pyrosim.End()
 
 
-Create_World()
+Generate_World()
 Generate_Body()
 Generate_Brain()
