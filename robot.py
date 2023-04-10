@@ -5,6 +5,7 @@ import pyrosim.pyrosim as pyrosim
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 import os
 import constants as c
+import numpy as np
 
 
 class ROBOT:
@@ -20,7 +21,7 @@ class ROBOT:
 
     def Prepare_To_Sense(self):
         for linkName in pyrosim.linkNamesToIndices:
-            self.sensors[linkName] = SENSOR(linkName)
+            self.sensors[linkName] = SENSOR(linkName, np.zeros(c.STEPS))
 
     def Sense(self, t):
         for sensor in self.sensors:
@@ -42,11 +43,14 @@ class ROBOT:
         #self.nn.Print()
 
     def Get_Fitness(self):
-        stateOfLinkZero = p.getLinkState(self.robotId, 0)
-        positionOfLinkZero = stateOfLinkZero[0]
-        xCoordinateOfLinkZero = positionOfLinkZero[0]
+        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
+        basePosition = basePositionAndOrientation[0]
+        xPosition = basePosition[0]
+        sensorArray = np.load("data/t_sensor_vals.npy")
+        sensorAvg = np.mean(sensorArray)
+        print("Touch sensor average: " + str(sensorAvg))
         tempFitness = open("tmp" + self.solutionID + ".txt", "w")
-        tempFitness.write(str(xCoordinateOfLinkZero))
+        tempFitness.write(str(xPosition))
         tempFitness.close()
         os.system("mv tmp" + self.solutionID + ".txt" " fitness" + self.solutionID + ".txt")
 

@@ -10,13 +10,14 @@ class SOLUTION:
     def __init__(self, myID):
         self.myID = myID
         self.weights = numpy.random.rand(c.numSensorNeurons, c.numMotorNeurons)
-        self.weights = self.weights * c.numMotorNeurons - 1
-        self.fitness = 0
+        # if need be, replace 2 with c.numMotorNeurons below
+        self.weights = self.weights * 2 - 1
+        self.fitness = 10
 
     def Start_Simulation(self, directOrGUI):
         self.Create_World()
         self.Create_Body()
-        self.Create_Brain()
+        self.Create_Brain(self.myID)
         string = "python3 simulate.py " + directOrGUI + " " + str(self.myID)
         os.system(string)
 
@@ -25,9 +26,9 @@ class SOLUTION:
         while not os.path.exists(fitnessFileName):
             time.sleep(0.01)
         time.sleep(0.01)
-        fitness = open(fitnessFileName, "r")
-        self.fitness = float(fitness.read())
-        fitness.close()
+        f = open(fitnessFileName, "r")
+        self.fitness = float(f.read())
+        f.close()
         os.system("rm " + fitnessFileName)
 
     def Create_World(self):
@@ -74,7 +75,7 @@ class SOLUTION:
                           size=[0.2, 0.2, 1])
         pyrosim.End()
 
-    def Create_Brain(self):
+    def Create_Brain(self, myID):
         pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
         pyrosim.Send_Sensor_Neuron(name=0, linkName="Torso")
         pyrosim.Send_Sensor_Neuron(name=1, linkName="LowerBackLeg")
@@ -100,7 +101,8 @@ class SOLUTION:
 
         randomColumn = random.randint(0, c.numSensorNeurons - 1)
         randomRow = random.randint(0, c.numMotorNeurons - 1)
-        self.weights[randomColumn][randomRow] = random.random() * c.numMotorNeurons - 1
+        # if need be, replace 2 with c.numMotorNeurons below
+        self.weights[randomColumn][randomRow] = random.random() * 2 - 1
 
     def Set_ID(self, myID):
         self.myID = myID
