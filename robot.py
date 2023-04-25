@@ -9,15 +9,17 @@ import numpy as np
 
 
 class ROBOT:
-    def __init__(self, solutionID):
+    def __init__(self, solutionID, letterID):
         self.solutionID = solutionID
         self.motors = {}
         self.sensors = {}
-        self.robotId = p.loadURDF("body" + self.solutionID + ".urdf")
+        self.letterID = letterID
+        self.robotId = p.loadURDF("body_" + letterID + self.solutionID + ".urdf")
         pyrosim.Prepare_To_Simulate(self.robotId)
         self.Prepare_To_Sense()
         self.Prepare_To_Act()
-        self.nn = NEURAL_NETWORK("brain" + self.solutionID + ".nndf")
+        self.nn = NEURAL_NETWORK("brain_" + letterID + self.solutionID + ".nndf")
+        # os.system("rm brain_" + letterID + self.solutionID + ".nndf")
 
     def Prepare_To_Sense(self):
         for linkName in pyrosim.linkNamesToIndices:
@@ -40,17 +42,12 @@ class ROBOT:
 
     def Think(self):
         self.nn.Update()
-        #self.nn.Print()
 
     def Get_Fitness(self):
-        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
-        basePosition = basePositionAndOrientation[0]
-        xPosition = basePosition[0]
-        sensorArray = np.load("data/t_sensor_vals.npy")
-        sensorAvg = np.mean(sensorArray)
-        print("Touch sensor average: " + str(sensorAvg))
+        sensorFile = open("data/sensorAvg.txt", "r")
+        fitVal = float(sensorFile.readline())
         tempFitness = open("tmp" + self.solutionID + ".txt", "w")
-        tempFitness.write(str(xPosition))
+        tempFitness.write(str(fitVal))
         tempFitness.close()
         os.system("mv tmp" + self.solutionID + ".txt" " fitness" + self.solutionID + ".txt")
 
